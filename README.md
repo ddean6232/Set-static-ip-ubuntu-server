@@ -14,12 +14,12 @@ To assign a static IP address on the network interface, open the YAML configurat
 sudo nano /etc/netplan/01-netcfg.yaml
 /etc/netplan/01-netcfg.yaml
 
-`network:
-  version: 2
-  renderer: networkd
-  ethernets:
-    ens3:
-      dhcp4: yes`
+`network:  
+  version: 2  
+  renderer: networkd  
+  ethernets:  
+    eth0:  
+      dhcp4: yes`  
 
 Before changing the configuration, let’s explain the code in a short.
 
@@ -37,17 +37,18 @@ Specify the gateway.
 Under nameservers, set the IP addresses of the nameservers.
 
 /etc/netplan/01-netcfg.yaml
-`network:
-  version: 2
-  renderer: networkd
-  ethernets:
-    ens3:
-      dhcp4: no
-      addresses:
-        - 192.168.121.221/24
-      gateway4: 192.168.121.1
-      nameservers:
-          addresses: [8.8.8.8, 1.1.1.1]`
+
+`network:  
+  version: 2  
+  renderer: networkd  
+  ethernets:  
+    eth0:  
+      dhcp4: no  
+      addresses:  
+        - 192.168.0.xx/24  
+      gateway4: 192.168.0.1  
+      nameservers:  
+          addresses: [8.8.8.8, 1.1.1.1]`  
 
 When editing Yaml files, make sure you follow the YAML code indent standards. If the syntax is not correct, the changes will not be applied.
 
@@ -56,12 +57,12 @@ Once done, save the file and apply the changes by running the following command:
 sudo netplan apply
 Verify the changes by typing:
 
-ip addr show dev ens3
-2: ens3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP group default qlen 1000
-    link/ether 08:00:27:6c:13:63 brd ff:ff:ff:ff:ff:ff
-    inet 192.168.121.221/24 brd 192.168.121.255 scope global dynamic ens3
-       valid_lft 3575sec preferred_lft 3575sec
-    inet6 fe80::5054:ff:feb0:f500/64 scope link 
-       valid_lft forever preferred_lft forever
+ip addr show dev ens3  
+2: ens3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP group default qlen 1000  
+    link/ether 08:00:27:6c:13:63 brd ff:ff:ff:ff:ff:ff  
+    inet 192.168.121.221/24 brd 192.168.121.255 scope global dynamic eth0  
+       valid_lft 3575sec preferred_lft 3575sec  
+    inet6 fe80::5054:ff:feb0:f500/64 scope link   
+       valid_lft forever preferred_lft forever  
 
 That’s it! You have assigned a static IP to your Ubuntu server.
